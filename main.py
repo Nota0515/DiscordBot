@@ -18,16 +18,6 @@ def runbot():
     if message.content.startswith (f'{command_prefix}hi '):
       await message.channel.send ('hello there')
 
-  @bot.command (
-    help ="This is a testing commands",
-    aliases = ['p'],
-    description = "This command is just answer pong ",
-    enable = False
-  )
-  async def ping(ctx):
-    '''.Answer as pong to ping.'''
-    await ctx.send ('pong! ')
-
   @bot.command()
   async def say(ctx, what="sorry but what the fuck you wanna say? "):
     await ctx.send(what)
