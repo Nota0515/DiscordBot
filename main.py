@@ -46,11 +46,7 @@ def runbot():
     if user.lower() in ['rock', 'paper', 'scissor']:
       comp = random.choice(["rock","paper","scissor"])
       result = game.game(user, comp)
-      if result:
-        await ctx.send(result)
-
-      else:
-        await ctx.send("Error occur")
+      await ctx.send(result)
     else:
       await ctx.send("please enter valid role")
     
