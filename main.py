@@ -17,7 +17,7 @@ def runbot():
   async def message ():
     if message.content.startswith (f'{command_prefix}hi '):
       await message.channel.send ('hello there')
-
+  
   @bot.command()
   async def say(ctx, what="sorry but what the fuck you wanna say? "):
     await ctx.send(what)
@@ -51,6 +51,7 @@ def runbot():
       await ctx.send("please enter valid role")
     
   bot.run(os.environ.get('TOKEN'))
+  Open_Ai_Token= os.environ.get('Discord_bot')
 
 
 runbot()
