@@ -3,24 +3,34 @@ import random
 import discord 
 from discord.ext import commands
 import game
+import get_quote as q
 
 def runbot():
   intents= discord.Intents.default()
   intents.message_content = True
-  bot = commands.Bot(command_prefix='/', intents=intents)
+  command_prefix = '/'
+  bot = commands.Bot(command_prefix, intents=intents)
   @bot.event 
-  async def on_ready(): 
-    
+  async def on_ready():  
     print(f"{bot.user}has logged in ")
   
-  @bot.event 
-  async def message ():
+  '''@bot.event 
+  async def on_message (message):
     if message.content.startswith (f'{command_prefix}hi '):
       await message.channel.send ('hello there')
-  
+'''
   @bot.command()
   async def say(ctx, what="sorry but what the fuck you wanna say? "):
     await ctx.send(what)
+
+  @bot.command(
+    aliases = "quote",
+    description = "This command will give you a quote "
+    
+  )
+  async def inspire(ctx, *use ):
+    quote = q.get_quote()
+    await ctx.send(quote)
   
   @bot.command()
   async def bolo(ctx,*what):
@@ -40,7 +50,7 @@ def runbot():
     help = "Game command",
     aliases =["play"],
     description="This command will play the rock paper scissors game",
-    enable= False 
+    enabled= True 
   )
   async def rpc(ctx, user: str ):
     if user.lower() in ['rock', 'paper', 'scissor']:
@@ -51,7 +61,5 @@ def runbot():
       await ctx.send("please enter valid role")
     
   bot.run(os.environ.get('TOKEN'))
-  Open_Ai_Token= os.environ.get('Discord_bot')
-
 
 runbot()
