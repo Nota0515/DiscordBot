@@ -24,7 +24,7 @@ def runbot():
     await ctx.send(what)
 
   @bot.command(
-    aliases = "quote",
+    aliases = ["quote"],
     description = "This command will give you a quote "
     
   )
