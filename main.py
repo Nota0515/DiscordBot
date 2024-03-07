@@ -59,6 +59,10 @@ def runbot():
       await ctx.send(result)
     else:
       await ctx.send("please enter valid role")
+
+  @bot.command()
+  async def quest(ctx, user:str):
+    pass
     
   bot.run(os.environ.get('TOKEN'))
 
