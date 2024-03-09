@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 import game
 import get_quote as q
+import gemini as gem
 
 def runbot():
   intents= discord.Intents.default()
@@ -61,8 +62,9 @@ def runbot():
       await ctx.send("please enter valid role")
 
   @bot.command()
-  async def quest(ctx, user:str):
-    pass
+  async def quest(ctx, *user):
+    response = gem.generate_response(user)
+    await ctx.send(response)
     
   bot.run(os.environ.get('TOKEN'))
 
