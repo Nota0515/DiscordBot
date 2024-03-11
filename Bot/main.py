@@ -14,6 +14,8 @@ def runbot():
   @bot.event 
   async def on_ready():  
     print(f"{bot.user}has logged in ")
+
+   # await bot.tree.sync()
   
   '''@bot.event 
   async def on_message (message):
@@ -62,7 +64,8 @@ def runbot():
       await ctx.send("please enter valid role")
 
   @bot.command()
-  async def quest(ctx, *user):
+  async def quest(ctx, *what):
+    user = str(what)
     response = gem.generate_response(user)
     await ctx.send(response)
     
