@@ -1,4 +1,5 @@
 import os
+import setting
 import random
 import discord 
 from discord.ext import commands
@@ -7,6 +8,8 @@ import get_quote as q
 import gemini as gem
 import chatgpt as cht
 
+logger = setting.logging.getLogger("bot")
+
 def runbot():
   intents= discord.Intents.default()
   intents.message_content = True
@@ -14,15 +17,25 @@ def runbot():
   bot = commands.Bot(command_prefix, intents=intents)
   @bot.event 
   async def on_ready():  
-    print(f"{bot.user}has logged in ")
+    logger.info(f"{bot.user}has logged in ")
+    logger.info(f"Guild ID : {bot.guilds[0].id}") 
+    bot.tree.copy_global_to(guild=setting.GUILD_ID)
+    await bot.tree.sync(guild=setting.GUILD_ID)
 
-   # await bot.tree.sync()
-  
+  @bot.event
+  async def bot_command_error(ctx, error):
+    if isinstances(error , commands.MissingRequiredArguments):
+      await ctx.send("global error")
+      
   '''@bot.event 
   async def on_message (message):
     if message.content.startswith (f'{command_prefix}hi '):
       await message.channel.send ('hello there')
 '''
+  @bot.tree.command(description= "checking")
+  async def hi(interaction: discord.Interaction):
+    await interaction.response.send_message(f"hello there! {interaction.user.mention}")
+  
   @bot.command()
   async def say(ctx, what="sorry but what the fuck you wanna say? "):
     await ctx.send(what)
@@ -32,7 +45,7 @@ def runbot():
     description = "This command will give you a quote "
     
   )
-  async def inspire():
+  async def inspire(ctx):
     quote = q.get_quote()
     await ctx.send(quote)
 
@@ -83,6 +96,6 @@ def runbot():
     response = cht.gpt(what)
     await ctx.send(response)
     
-  bot.run(os.environ.get('TOKEN'))
+  bot.run(os.environ.get('TOKEN'), root_logger = True)
 
 runbot()
